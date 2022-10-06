@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_realtime/mainSendMessage/main_send_messsage.dart';
 
 //aplicacion con firebase RealTime
 void main(List<String> args) async {
@@ -29,49 +30,29 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
-  final firebasedb = FirebaseDatabase.instance.ref();
-
-  leer() {
-    print("estamos en leer");
-    firebasedb.child("Servicios Academicos").onChildAdded.listen((event) {
-      print(event.snapshot.value);
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    leer();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(tabs: [
-              Tab(icon: Icon(Icons.message)),
-              Tab(icon: Icon(Icons.send)),
-              Tab(icon: Icon(Icons.home_work))
+    return Scaffold(
+      body: SafeArea(
+          child: Center(
+              child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              ElevatedButton(onPressed: () {}, child: Text("button 1")),
+              ElevatedButton(onPressed: () {}, child: Text("button 2")),
             ]),
-          ),
-          body: TabBarView(children: [
-            ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) => Card(
-                      child: ListTile(
-                        title: Text("cargamento numero 1"),
-                        subtitle: Text(
-                            "hola como etasssssssssssssssssssssssssssssssssssssssss"),
-                      ),
-                    )),
-            Center(
-              child: Text("holaa"),
+            Row(
+              children: [
+                ElevatedButton(onPressed: () {}, child: Text("button 2")),
+                ElevatedButton(onPressed: () {}, child: Text("button 4")),
+              ],
             ),
-            Center(child: ElevatedButton(onPressed: () {}, child: Text("data")))
-          ]),
-        ));
+          ],
+        ),
+      ))),
+    );
   }
 }
