@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "683668606251",
+    "project_id": "realtimeapp-jhonel",
+    "storage_bucket": "realtimeapp-jhonel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683668606251:android:a0e6657db33c7e8470c96e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_realtime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683668606251-j0el0ufbjgqj711amuereagomhi4upd9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0y8O7dmPZL_7KXTW4fYCym0aaGoZqyM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683668606251-j0el0ufbjgqj711amuereagomhi4upd9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
