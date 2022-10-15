@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_realtime/mainSendMessage/main_send_messsage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,16 +8,24 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_application_realtime/mainSendMessage/main_send_messsage.dart';
 
 class MainOfficeUser extends StatelessWidget {
-  const MainOfficeUser({Key? key}) : super(key: key);
+  var officeStateless;
+  MainOfficeUser({
+    super.key,
+    required this.officeStateless,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: HomeMainOfficeUser());
+    return MaterialApp(
+        home: HomeMainOfficeUser(
+      office: officeStateless,
+    ));
   }
 }
 
 class HomeMainOfficeUser extends StatefulWidget {
-  HomeMainOfficeUser({Key? key}) : super(key: key);
+  var office;
+  HomeMainOfficeUser({Key? key, required this.office}) : super(key: key);
 
   @override
   State<HomeMainOfficeUser> createState() => _HomeMainOfficeUserState();
@@ -23,17 +33,31 @@ class HomeMainOfficeUser extends StatefulWidget {
 
 class _HomeMainOfficeUserState extends State<HomeMainOfficeUser> {
   final firebasedb = FirebaseDatabase.instance.ref();
+  var listThings = [];
 
-  leer() {
+  leer() async {
     print("estamos en leer");
-    firebasedb.child("Servicios Academicos").onChildAdded.listen((event) {
+    print(widget.office.toString());
+    await firebasedb
+        .child(widget.office.toString())
+        .onChildAdded
+        .listen((event) {
       print(event.snapshot.value);
+      Map<String, dynamic> data = jsonDecode(jsonEncode(event.snapshot.value));
+      print(data.keys);
+      print(data.values);
+      print(event.snapshot.key);
+      listThings.add({event.snapshot.key.toString(): event.snapshot.value});
+      print(listThings);
+    });
+    setState(() {
+      print(listThings);
+      listThings;
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     leer();
   }
@@ -50,16 +74,20 @@ class _HomeMainOfficeUserState extends State<HomeMainOfficeUser> {
               Tab(icon: Icon(Icons.home_work))
             ]),
           ),
-          body: TabBarView(children: [
+          body: TabBarView(children: <Widget>[
             ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) => Card(
-                      child: ListTile(
-                        title: Text("cargamento numero 1"),
-                        subtitle: Text(
-                            "hola como etasssssssssssssssssssssssssssssssssssssssss"),
-                      ),
-                    )),
+                itemCount: listThings.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    trailing: PopupMenuButton(
+                      itemBuilder: (context) => [],
+                    ),
+                    title: Text(
+                        listThings[index].values.first['titulo'].toString()),
+                    subtitle: Text(
+                        listThings[index].values.first['message'].toString()),
+                  );
+                }),
             MainSendMessage(),
             Center(
                 child: ElevatedButton(onPressed: () {}, child: Text("data"))),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_application_realtime/mainOfficeUser/main_Office_User.dart';
 import 'package:flutter_application_realtime/mainSendMessage/main_send_messsage.dart';
 
 //aplicacion con firebase RealTime
@@ -41,12 +42,34 @@ class _HomeAppState extends State<HomeApp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              ElevatedButton(onPressed: () {}, child: Text("button 1")),
-              ElevatedButton(onPressed: () {}, child: Text("button 2")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainOfficeUser(
+                                officeStateless: "Servicios Academicos")));
+                  },
+                  child: Text("Servicios Academicos")),
+              SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainOfficeUser(
+                                officeStateless: "Administracion")));
+                  },
+                  child: Text("Administracion")),
             ]),
             Row(
               children: [
                 ElevatedButton(onPressed: () {}, child: Text("button 2")),
+                SizedBox(
+                  width: 20,
+                ),
                 ElevatedButton(onPressed: () {}, child: Text("button 4")),
               ],
             ),
