@@ -38,10 +38,7 @@ class _HomeMainOfficeUserState extends State<HomeMainOfficeUser> {
   leer() async {
     print("estamos en leer");
     print(widget.office.toString());
-    await firebasedb
-        .child(widget.office.toString())
-        .onChildAdded
-        .listen((event) {
+    firebasedb.child(widget.office.toString()).onChildAdded.listen((event) {
       print(event.snapshot.value);
       Map<String, dynamic> data = jsonDecode(jsonEncode(event.snapshot.value));
       print(data.keys);
@@ -49,9 +46,21 @@ class _HomeMainOfficeUserState extends State<HomeMainOfficeUser> {
       print(event.snapshot.key);
       listThings.add({event.snapshot.key.toString(): event.snapshot.value});
       print(listThings);
+      setState(() {
+        listThings;
+      });
     });
+  }
+
+  listenRemoveMessage(value) {
+    firebasedb.child(widget.office.toString()).child(value).remove();
+
+    for (int i = 0; i < listThings.length; i++) {
+      if (listThings[i].keys.first == value) {
+        listThings.removeAt(i);
+      }
+    }
     setState(() {
-      print(listThings);
       listThings;
     });
   }
@@ -80,7 +89,15 @@ class _HomeMainOfficeUserState extends State<HomeMainOfficeUser> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     trailing: PopupMenuButton(
-                      itemBuilder: (context) => [],
+                      onSelected: (value) {
+                        listenRemoveMessage(value);
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          child: Text('CITA COMPLETE'),
+                          value: listThings[index].keys.first,
+                        )
+                      ],
                     ),
                     title: Text(
                         listThings[index].values.first['titulo'].toString()),
