@@ -105,7 +105,7 @@ class _HomeMainOfficeUserState extends State<HomeMainOfficeUser> {
                         listThings[index].values.first['message'].toString()),
                   );
                 }),
-            MainSendMessage(),
+            MainSendMessage(office: widget.office.toString()),
             Center(
                 child: ElevatedButton(onPressed: () {}, child: Text("data"))),
           ]),
